@@ -7,6 +7,7 @@ import today.netshield.bukkit.hook.Authentication;
 
 public class AuthMe implements Listener {
     private final Authentication authentication = new Authentication();
+
     @EventHandler
     public void onPlayerLogin(LoginEvent event) {
         authentication.handle(event.getPlayer());

@@ -4,8 +4,11 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import okhttp3.*;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
-import today.netshield.bukkit.listeners.PlayerListener;
+import today.netshield.bukkit.hook.impl.AuthMe;
+import today.netshield.bukkit.hook.impl.nLogin;
 import today.netshield.bukkit.utils.CC;
 
 import java.io.IOException;
@@ -56,8 +59,8 @@ public final class NetShield extends JavaPlugin {
                 } else {
                     CC.log("&9Status: &a" + status);
                     CC.log("&eThanks for using &lNetShield&e!");
+                    registerListeners();
 
-                    getServer().getPluginManager().registerEvents(new PlayerListener(), this);
                 }
             } else {
                 CC.log("Error: " + response.code() + " - " + response.message());
@@ -68,6 +71,18 @@ public final class NetShield extends JavaPlugin {
         }
 
         CC.log("&7&m" + StringUtils.repeat("-", 24));
+    }
+
+    private void registerListeners() {
+        Plugin nLoginPlugin = Bukkit.getPluginManager().getPlugin("nLogin");
+        Plugin AuthMePlugin = Bukkit.getPluginManager().getPlugin("AuthMe");
+
+        if (nLoginPlugin != null && nLoginPlugin.isEnabled()) {
+            getServer().getPluginManager().registerEvents(new nLogin(), this);
+        }
+        if (AuthMePlugin != null && AuthMePlugin.isEnabled()) {
+            getServer().getPluginManager().registerEvents(new AuthMe(), this);
+        }
     }
 
     @Override

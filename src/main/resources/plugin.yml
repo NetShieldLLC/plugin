@@ -1,3 +1,6 @@
 name: NetShield
 version: '${project.version}'
 main: today.netshield.bukkit.NetShield
+loadbefore:
+  - nLogin
+  - AuthMe

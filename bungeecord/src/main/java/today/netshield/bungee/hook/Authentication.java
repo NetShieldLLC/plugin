@@ -31,7 +31,7 @@ public class Authentication {
         RequestBody requestBody = RequestBody.create(jsonString, MediaType.parse("application/json"));
 
         Request request = new Request.Builder()
-                .url("http://127.0.0.1:5000/api/checkuser")
+                .url("https://netshield.bombardeen.me/api/checkuser")
                 .post(requestBody)
                 .addHeader("Content-Type", "application/json")
                 .build();

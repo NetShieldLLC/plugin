@@ -54,7 +54,7 @@ public final class NetShield extends Plugin {
         RequestBody requestBody = RequestBody.create(jsonString, MediaType.parse("application/json"));
 
         Request request = new Request.Builder()
-                .url("http://127.0.0.1:5000/api/checkkey")
+                .url("https://netshield.bombardeen.me/api/checkkey")
                 .post(requestBody)
                 .addHeader("Content-Type", "application/json")
                 .build();

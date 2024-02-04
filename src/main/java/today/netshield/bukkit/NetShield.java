@@ -46,8 +46,8 @@ public final class NetShield extends JavaPlugin {
         try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful()) {
                 String jsonResponse = response.body().string();
-                String status = jsonResponse.contains("\"status\"") ?
-                        jsonResponse.split("\"status\"")[1].split(":")[1].split(",")[0].replaceAll("\"", "").trim() : null;
+                JsonObject responseObject = gson.fromJson(jsonResponse, JsonObject.class);
+                String status = responseObject.has("status") ? responseObject.get("status").getAsString() : null;
 
                 if (!status.equals("VALID_KEY")) {
                     CC.log("&9Status: &c" + status);
@@ -56,6 +56,8 @@ public final class NetShield extends JavaPlugin {
                 } else {
                     CC.log("&9Status: &a" + status);
                     CC.log("&eThanks for using &lNetShield&e!");
+
+                    getServer().getPluginManager().registerEvents(new PlayerListener(), this);
                 }
             } else {
                 CC.log("Error: " + response.code() + " - " + response.message());
@@ -66,8 +68,6 @@ public final class NetShield extends JavaPlugin {
         }
 
         CC.log("&7&m" + StringUtils.repeat("-", 24));
-
-        getServer().getPluginManager().registerEvents(new PlayerListener(), this);
     }
 
     @Override

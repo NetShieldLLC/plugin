@@ -1,24 +1,18 @@
-package today.netshield.bukkit.listeners;
+package today.netshield.bukkit.hook;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import fr.xephi.authme.events.LoginEvent;
 import okhttp3.*;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import today.netshield.bukkit.NetShield;
 import today.netshield.bukkit.utils.CC;
 
 import java.io.IOException;
 import java.util.List;
 
-public class PlayerListener implements Listener {
-    @EventHandler
-    public void onPlayerLogin(LoginEvent event) {
-        Player player = event.getPlayer();
-
+public class Authentication {
+    public void handle(Player player) {
         OkHttpClient client = new OkHttpClient();
 
         Gson gson = new Gson();

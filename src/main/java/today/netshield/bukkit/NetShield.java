@@ -11,9 +11,16 @@ import today.netshield.bukkit.utils.CC;
 import java.io.IOException;
 
 public final class NetShield extends JavaPlugin {
+    private static NetShield instance;
+
+    public static NetShield getInstance() {
+        return instance;
+    }
+
     @Override
     public void onEnable() {
         saveDefaultConfig();
+        instance = this;
 
         CC.log("&7&m" + StringUtils.repeat("-", 24));
         CC.log("&b&lNet&9&lShield");

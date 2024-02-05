@@ -3,8 +3,10 @@ package today.netshield.bukkit.hook;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import okhttp3.*;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitTask;
 import today.netshield.bukkit.NetShield;
 import today.netshield.bukkit.utils.CC;
 
@@ -43,7 +45,7 @@ public class Authentication {
                         jsonResponse.split("\"code\"")[1].split(":")[1].split(",")[0].replaceAll("\"", "").trim() : null;
 
                 if (code == null || !code.equalsIgnoreCase("VALID_PLAYER")) {
-                    Bukkit.getServer().getScheduler().runTask(() -> kickPlayer(player)));
+                    kickPlayer(player);
                 }
             } else {
                 CC.log("Error: " + response.code() + " - " + response.message());
@@ -60,6 +62,8 @@ public class Authentication {
         for (String line : kickMessage) {
             message.append(ChatColor.translateAlternateColorCodes('&', line)).append("\n");
         }
-        player.kickPlayer(message.toString());
+        Bukkit.getScheduler().runTask(NetShield.getInstance(), () -> {
+            player.kickPlayer(message.toString());
+        });
     }
 }

@@ -43,7 +43,7 @@ public class Authentication {
                         jsonResponse.split("\"code\"")[1].split(":")[1].split(",")[0].replaceAll("\"", "").trim() : null;
 
                 if (code == null || !code.equalsIgnoreCase("VALID_PLAYER")) {
-                    kickPlayer(player);
+                    Bukkit.getServer().getScheduler().runTask(() -> kickPlayer(player)));
                 }
             } else {
                 CC.log("Error: " + response.code() + " - " + response.message());

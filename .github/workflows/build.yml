@@ -29,6 +29,6 @@ jobs:
         run: 'cd bukkit; mvn clean package'
       - name: 'Build with Maven (BungeeCord)'
         run: 'cd bungeecord; mvn clean package'
-      # - name: 'Build with Maven (Velocity)'
-      #   run: 'cd velocity; mvn clean package'
+      - name: 'Build with Maven (Velocity)'
+        run: 'cd velocity; mvn clean package'
       

@@ -10,7 +10,7 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import org.slf4j.Logger;
 import today.netshield.velocity.config.ConfigManager;
-import today.netshield.velocity.hook.impl.nLogin;
+import today.netshield.velocity.listeners.PlayerListener;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -18,13 +18,14 @@ import java.nio.file.Path;
 @Plugin(
         id          = "netshield",
         name        = "NetShield-Velocity",
-        version     = "1.0-SNAPSHOT",
+        version     =  "1.1",
         description = "Secure your minecraft cracked player's accounts."
 )
 @Getter
 public class NetShield {
     @Getter
     private static NetShield instance;
+
     @Inject
     private static Logger logger;
 
@@ -47,20 +48,10 @@ public class NetShield {
 
         configManager.getConfig().node("KEY", "KICK_MESSAGE");
 
-        loadListeners();
+        proxyServer.getEventManager().register(this, new PlayerListener());
     }
 
-    private void loadListeners() {
-        if (getProxyServer().getPluginManager().isLoaded("nlogin")) {
-            proxyServer.getEventManager().register(this, new nLogin());
-        }
-    }
-
-    public static void log(String s) {
+    public void log(String s) {
         logger.info(s);
-    }
-
-    public File getFile(String file) {
-        return new File(path.toFile(), file);
     }
 }

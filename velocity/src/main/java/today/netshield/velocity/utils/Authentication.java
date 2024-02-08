@@ -1,16 +1,14 @@
-package today.netshield.velocity.hook;
+package today.netshield.velocity.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.velocitypowered.api.proxy.Player;
 import lombok.SneakyThrows;
-import net.kyori.adventure.text.Component;
 import okhttp3.*;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;
 import today.netshield.velocity.NetShield;
 import today.netshield.velocity.config.ConfigManager;
-import today.netshield.velocity.utils.CC;
 
 import java.io.IOException;
 import java.util.List;
@@ -41,7 +39,7 @@ public class Authentication {
                     kickPlayer(player);
                 }
             } else {
-                NetShield.log("Error: " + response.code() + " - " + response.message());
+                NetShield.getInstance().log("Error: " + response.code() + " - " + response.message());
             }
         } catch (IOException ignored) {}
     }
@@ -69,8 +67,8 @@ public class Authentication {
 
         StringBuilder message = new StringBuilder();
         for (String line : kickMessage) {
-            message.append(CC.colorize(line)).append("\n");
+            message.append(line).append("\n");
         }
-        player.disconnect(Component.text(message.toString()));
+        player.disconnect(CC.colorize(message.toString()));
     }
 }

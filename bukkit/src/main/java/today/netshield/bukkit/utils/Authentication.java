@@ -1,18 +1,18 @@
-package today.netshield.bungee.hook;
+package today.netshield.bukkit.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
 import okhttp3.*;
-import today.netshield.bungee.NetShield;
-import today.netshield.bungee.utils.CC;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+import today.netshield.bukkit.NetShield;
 
 import java.io.IOException;
 import java.util.List;
 
 public class Authentication {
-    public void handle(ProxiedPlayer player) {
+    public void handle(Player player) {
         OkHttpClient client = new OkHttpClient();
 
         Gson gson = new Gson();
@@ -53,13 +53,15 @@ public class Authentication {
         }
     }
 
-    private void kickPlayer(ProxiedPlayer player) {
+    private void kickPlayer(Player player) {
         List<String> kickMessage = NetShield.getInstance().getConfig().getStringList("KICK_MESSAGE");
 
         StringBuilder message = new StringBuilder();
         for (String line : kickMessage) {
             message.append(ChatColor.translateAlternateColorCodes('&', line)).append("\n");
         }
-        player.disconnect(message.toString());
+        Bukkit.getScheduler().runTask(NetShield.getInstance(), () -> {
+            player.kickPlayer(message.toString());
+        });
     }
 }

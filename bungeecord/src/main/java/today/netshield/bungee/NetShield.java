@@ -2,12 +2,13 @@ package today.netshield.bungee;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import lombok.Getter;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
 import okhttp3.*;
-import today.netshield.bungee.hook.impl.nLogin;
+import today.netshield.bungee.listeners.PlayerListener;
 import today.netshield.bungee.utils.CC;
 import today.netshield.bungee.utils.ConfigFiles;
 
@@ -15,12 +16,10 @@ import java.io.File;
 import java.io.IOException;
 
 public final class NetShield extends Plugin {
+    @Getter
     private static NetShield instance;
+    @Getter
     private Configuration config;
-
-    public static NetShield getInstance() {
-        return instance;
-    }
 
     @Override
     public void onEnable() {
@@ -73,7 +72,7 @@ public final class NetShield extends Plugin {
                 } else {
                     CC.log("&9Status: &a" + status);
                     CC.log("&eThanks for using &lNetShield&e!");
-                    registerListeners();
+                    getProxy().getPluginManager().registerListener(this, new PlayerListener());
                 }
             } else {
                 CC.log("Error: " + response.code() + " - " + response.message());
@@ -85,15 +84,5 @@ public final class NetShield extends Plugin {
         }
 
         CC.log("&7&m------------------------");
-    }
-
-    private void registerListeners() {
-        if (getProxy().getPluginManager().getPlugin("nLogin") != null) {
-            getProxy().getPluginManager().registerListener(this, new nLogin());
-        }
-    }
-
-    public Configuration getConfig() {
-        return config;
     }
 }

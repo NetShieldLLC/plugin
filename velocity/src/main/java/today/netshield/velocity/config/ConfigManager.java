@@ -14,7 +14,7 @@ import java.nio.file.StandardCopyOption;
 @Getter
 public class ConfigManager {
     private final File dataFolder;
-    private final CommentedConfigurationNode config;
+    private CommentedConfigurationNode config;
 
     public ConfigManager(File dataFolder) {
         this.dataFolder = dataFolder;
@@ -45,6 +45,21 @@ public class ConfigManager {
             return config;
         } catch (ConfigurateException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Reloads the configuration from disk
+     *
+     * @return true if the reload was successful, false otherwise
+     */
+    public boolean reload() {
+        try {
+            this.config = this.loadConfig("config");
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
     }
 }

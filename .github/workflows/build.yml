@@ -26,9 +26,9 @@ jobs:
         with:
           java-version: 17
       - name: 'Build with Maven (Bukkit)'
-        run: 'cd bukkit; mvn clean package'
+        run: 'cd bukkit; mvn clean package -T4'
       - name: 'Build with Maven (BungeeCord)'
-        run: 'cd bungeecord; mvn clean package'
+        run: 'cd bungeecord; mvn clean package -T4'
       - name: 'Build with Maven (Velocity)'
-        run: 'cd velocity; mvn clean package'
+        run: 'cd velocity; mvn clean package -T4'
       

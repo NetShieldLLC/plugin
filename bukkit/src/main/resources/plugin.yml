@@ -1,6 +1,0 @@
-name: NetShield
-version: '${project.version}'
-main: today.netshield.bukkit.NetShield
-loadbefore:
-  - PlayerListener
-  - AuthMe

@@ -1,38 +1,36 @@
 package today.netshield.bungee;
 
 import lombok.Getter;
+import lombok.Setter;
+import lombok.SneakyThrows;
+import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
-import today.netshield.bungee.listeners.PlayerListener;
+import today.netshield.bungee.commands.NetShieldCommand;
+import today.netshield.bungee.listeners.ConnectionListener;
 import today.netshield.bungee.utils.ConfigFiles;
 
 import java.io.File;
-import java.io.IOException;
 
+@Getter @Setter
 public final class NetShield extends Plugin {
-    @Getter
-    private static NetShield instance;
-    @Getter
+    @Getter private static NetShield instance;
+
     private Configuration config;
 
+    @SneakyThrows
     @Override
     public void onEnable() {
         instance = this;
 
-        try {
-            new ConfigFiles().makeConfig();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        new ConfigFiles().makeConfig();
+        config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(getDataFolder(), "config.yml"));
 
-        try {
-            config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(getDataFolder(), "config.yml"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        ProxyServer.getInstance().getPluginManager().registerCommand(this, new NetShieldCommand());
+        getProxy().getPluginManager().registerListener(this, new ConnectionListener(this));
 
-        getProxy().getPluginManager().registerListener(this, new PlayerListener());
+        getLogger().info("NetShield has been enabled!");
     }
 }
